@@ -1,0 +1,48 @@
+﻿@model BorrowingABook.Data.DetailsDto
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="Title" class="control-label">Kitap Adı</label>
+            <input id="Title" class="form-control" value="@Model.Book.Title" disabled />
+        </div>
+        <div class="form-group">
+            <label for="ISBN" class="control-label">Kitap ISBN No</label>
+            <input id="isbn" class="form-control" value="@Model.Book.ISBN" disabled />
+        </div>
+        <div class="form-group">
+            <label for="Availability" class="control-label">Kitap Durumu</label>
+            <input id="Availability" class="form-control" value="@Model.Book.Availability" disabled />
+        </div>
+        <div class="form-group">
+            <label for="Price" class="control-label">Kitap Fiyatı</label>
+            <input id="Price" class="form-control" value="@Model.Book.Price TL" disabled />
+        </div>
+        <div class="form-group">
+            <label for="PersonName" class="control-label">Kitabı Son Teslim Alan</label>
+            <input id="PersonName" class="form-control" value="@Model.PersonName" disabled />
+        </div>
+        <div class="form-group">
+            <label for="BorrowingDate" class="control-label">Kitabın Son Alınma Tarihi</label>
+            <input id="BorrowingDate" type="date" class="form-control" value="@Model.BorrowingDtae.ToString("yyyy-MM-dd")" disabled />
+        </div>
+        <div class="form-group">
+            <label for="DeliveryDate" class="control-label">Kitabın Son Teslim Tarihi</label>
+            <input id="DeliveryDate" type="date" class="form-control" value="@Model.DeliveryDate.ToString("yyyy-MM-dd")" disabled />
+        </div>
+    </div>
+</div>
+
+<div>
+    <a role="button" class="btn btn-info" href="/Home/Index">Anasayfaya Dön</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

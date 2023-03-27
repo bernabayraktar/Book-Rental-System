@@ -1,0 +1,111 @@
+﻿@model BorrowingABook.Models.Borrow
+
+@{
+    ViewData["Title"] = "CheckOut";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CheckOut" asp-controller="Home" method="post" asp-route-id="@ViewBag.Id">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PersonName" class="control-label"></label>
+                <input asp-for="PersonName" name="PersonName" class="form-control" />
+                <span asp-validation-for="PersonName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TCKNO" class="control-label"></label>
+                <input asp-for="TCKNO" name="TCKNO" class="form-control" />
+                <span asp-validation-for="TCKNO" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tel" class="control-label"></label>
+                <input asp-for="Tel" id="phone" name="Tel" type="tel" class="form-control"/>
+            </div>
+
+            <div class="form-group">
+                <label for="date">Alma Tarihi</label>
+                <input type="date" class="form-control" id="date" value="@DateTime.Today.ToString("yyyy-MM-dd")" readonly>
+            </div>
+            <div class="form-group">
+                <label for="date">Teslim Tarihi</label>
+                <input type="date" class="form-control" id="date" value="@DateTime.Today.AddDays(21).ToString("yyyy-MM-dd")" readonly>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Onayla" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Anasayfaya Dön</a>
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $("#phone").inputmask("0(599) 999-9999?", { autoclear: false });
+            $("form").validate({
+                rules: {
+                    "PersonName": {
+                        required: true,
+                    },
+                    "TCKNO": {
+                        required: true,
+                        digits: true,
+                        minlength: 11,
+                        maxlength: 11,
+                        tckn: true,
+
+                    },
+                    "Tel": {
+                        required: true,
+                    }
+                },
+                messages: {
+                    "PersonName": {
+                        required: "Bu alan zorunludur.",
+                    },
+                    "TCKNO": {
+                        required: "Bu alan zorunludur.",
+                        digits: "TCKNO alanında yalnız sayı giriniz.",
+                        minlength: "TCKNO 11 haneli olmalıdır.",
+                        maxlength: "TCKNO 11 haneli olmalıdır.",
+                        tckn: "Lütfen geçerli bir TCKNO giriniz."
+                    },
+                    "Tel": {
+                        required: "Bu alan zorunludur",
+                    }
+                }
+            })
+            $.validator.addMethod("tckn", function (value, element) {
+                var firstDigit = parseInt(value.charAt(0));
+                var secondDigit = parseInt(value.charAt(1));
+                var thirdDigit = parseInt(value.charAt(2));
+                var fourthDigit = parseInt(value.charAt(3));
+                var fifthDigit = parseInt(value.charAt(4));
+                var sixthDigit = parseInt(value.charAt(5));
+                var seventhDigit = parseInt(value.charAt(6));
+                var eighthDigit = parseInt(value.charAt(7));
+                var ninthDigit = parseInt(value.charAt(8));
+                var tenthDigit = parseInt(value.charAt(9));
+                var eleventhDigit = parseInt(value.charAt(10));
+                var firstTotal = firstDigit + thirdDigit + fifthDigit + seventhDigit + ninthDigit;
+                var secondTotal = secondDigit + fourthDigit + sixthDigit + eighthDigit;
+                firstTotal *= 7;
+                secondTotal *= 9
+                var total = firstTotal + secondTotal;
+                
+                if (((total % 10) == tenthDigit) && (((firstDigit + thirdDigit + fifthDigit + seventhDigit + ninthDigit + secondDigit + fourthDigit + sixthDigit + eighthDigit + tenthDigit) % 10) == eleventhDigit) && (firstDigit != 0) && ((eleventhDigit % 2) != 1)) 
+                {
+
+                    return true;
+                }
+                return false;
+            }, "Lütfen geçerli bir TC Kimlik numarası girin");
+
+        })
+
+    </script>
+}

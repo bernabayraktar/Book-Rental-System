@@ -1,0 +1,62 @@
+﻿@model BorrowingABook.Models.Borrow
+
+@{
+    ViewData["Title"] = "CheckIn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CheckInBook" asp-controller="Home" asp-route-id="@ViewBag.Id">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label for="PersonName" class="control-label"></label>
+                <input id="PersonName" class="form-control" value="@Model.PersonName" disabled />
+            </div>
+
+            <div class="form-group">
+                <label for="Title" class="control-label"></label>
+                <input id="Title" class="form-control" value="@Model.Title" disabled />
+            </div>
+            <div class="form-group">
+                <label for="BorrowingDate" class="control-label"></label>
+                <input id="BorrowingDate" type="date" class="form-control" value="@Model.BorrowingDate.ToString("yyyy-MM-dd")" disabled />
+            </div>
+            <div class="form-group">
+                <label for="ExpectedDate" class="control-label"></label>
+                <input id="ExpectedDate" type="date" class="form-control" value="@Model.ExpectedDate.ToString("yyyy-MM-dd")" disabled />
+            </div>
+            <div class="form-group">
+                <label for="DeliveryDate" class="control-label"></label>
+                <input id="DeliveryDate" type="date" class="form-control" value="@DateTime.Today.ToString("yyyy-MM-dd")" disabled />
+            </div>
+              <div class="form-group">
+                <label asp-for="Tel" class="control-label"></label>
+                <input asp-for="Tel" id="phone" name="Tel" type="tel" class="form-control"/>
+            </div>
+
+            @if (ViewBag.Penalty != 0)
+            {
+                <label>Kitap teslimi gecikmiştir. Ek ödeme miktarı: @ViewBag.Penalty</label>
+            }
+
+
+            <div class="form-group">
+                <input type="submit" value="Check In" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a role="button" class="btn btn-info" href="/Home/Index">Anasayfaya Dön</a>
+</div>
+
+@section Scripts {
+    <script>
+        alert("Hata");
+         $(document).ready(function () {
+            $("#phone").inputmask("0(599) 999-9999?", { autoclear: false });
+         });
+    </script>
+}
